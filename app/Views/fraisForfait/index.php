@@ -17,11 +17,12 @@
 <body>
     <div class="topbar">
         <h1 style="margin:0;">Liste des Frais forfais</h1>
-        <a class="button" href="./dashboard">Dashboard</a>
-        <a class="button" href="./logout">Se déconnecter</a>
+     <a class="button" href="/index.php/dashboard">Dashboard</a>
+<a class="button" href="/index.php/logout">Se déconnecter</a>
+
     </div>
 
-    <a class="button" href="./fraisForfait/create">➕ Ajouter un frais forfait</a>
+  
 
     <?php if (!empty($message)): ?>
         <div class="flash"><?= htmlspecialchars($message) ?></div>
@@ -45,8 +46,8 @@
                         <td><?= htmlspecialchars((string)$frais['id']) ?></td>
                         <td><?= htmlspecialchars((string)$frais['libelle']) ?></td>
                         <td><?= htmlspecialchars((string)$frais['montant']) ?></td>
-                        <td><a href="./fraisForfait/<?= urlencode($frais['id']) ?>">
-    <?= htmlspecialchars($frais['libelle']) ?>
+                        <td><a href="/index.php/fraisForfait/<?= urlencode($frais['id']) ?>">
+  <?= htmlspecialchars($frais['libelle']) ?>
 </a></td>
                     </tr>
                 <?php endforeach; ?>

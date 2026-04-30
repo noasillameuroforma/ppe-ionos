@@ -17,7 +17,7 @@ abstract class Controller {
 
     // Redirection qui respecte le sous-dossier (base path)
     // Si tu es en PHP < 8.1, garde bien : void
-    protected function redirect(string $to): void {
+  /*  protected function redirect(string $to): void {
         $base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
         $isAbsolute = preg_match('~^https?://~i', $to) === 1;
 
@@ -29,7 +29,21 @@ abstract class Controller {
         }
         header('Location: ' . $to, true, 302);
         exit;
+    }*/
+  
+  // Redirection simple (adaptée quand ton domaine pointe sur /public)
+protected function redirect(string $to): void {
+    $isAbsolute = preg_match('~^https?://~i', $to) === 1;
+
+    if (!$isAbsolute) {
+        // Toujours une URL absolue depuis la racine du domaine
+        $to = '/' . ltrim($to, '/');
     }
+
+    header('Location: ' . $to, true, 302);
+    exit;
+}
+
 
     // CSRF helpers
     protected function csrfToken(): string {

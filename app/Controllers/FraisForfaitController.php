@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Controllers;
 
 use Core\Controller;
@@ -9,52 +11,51 @@ final class FraisForfaitController extends Controller
     public function index(): void
     {
         if (empty($_SESSION['uid'])) {
-            $this->redirect('/');
+            $this->redirect('/index.php/');
         }
 
         try {
-            $fraisForfait = FraisForfait::findAll(); // appel statique aligné avec le modèle
-        } catch (\Throwable $e) {
-            // Pour déboguer, active temporairement la ligne suivante :
-            // error_log($e->getMessage());
-            $_SESSION['flash'] = 'Impossible de charger les frais forfait.';
-            $fraisForfait = [];
-        }
+            $fraisForfait = FraisForfait::findAll();
+         } catch (\Throwable $e) {
+    @file_put_contents(
+        __DIR__ . '/../../ppe_logs/php-fraisforfait-exception.log',
+        "[".date('c')."] ".get_class($e).": ".$e->getMessage()." in ".$e->getFile().":".$e->getLine()."\n".$e->getTraceAsString()."\n\n",
+        FILE_APPEND
+    );
+    $_SESSION['flash'] = 'Impossible de charger les frais forfait.';
+    $fraisForfait = [];
+}
 
         $this->render('fraisForfait/index', [
-            'title'   => 'Liste des frais forfait',
-            'fraisForfait'   => $fraisForfait,
-            'message' => $_SESSION['flash'] ?? '',
+            'title'        => 'Liste des frais forfait',
+            'fraisForfait' => $fraisForfait,
+            'message'      => $_SESSION['flash'] ?? '',
         ]);
         unset($_SESSION['flash']);
     }
 
- public function show($id): void
-{
-    if (empty($_SESSION['uid'])) $this->redirect('/');
+    public function show($id): void
+    {
+        if (empty($_SESSION['uid'])) $this->redirect('/index.php/');
 
-    $id = (int)$id;
+        $id = (int)$id;
 
-    try {
-        $fraisForfait = \Models\FraisForfait::findById($id);
-        if (!$fraisForfait) {
-            http_response_code(404);
-            $_SESSION['flash'] = 'frais forfait introuvable.';
-            $this->redirect('/fraisForfait');
+        try {
+            $fraisForfait = FraisForfait::findById($id);
+            if (!$fraisForfait) {
+                $_SESSION['flash'] = 'Frais forfait introuvable.';
+                $this->redirect('/index.php/fraisForfait');
+            }
+        } catch (\Throwable $e) {
+            $_SESSION['flash'] = 'Erreur lors du chargement du frais forfait.';
+            $this->redirect('/index.php/fraisForfait');
         }
-    } catch (\Throwable $e) {
-        // error_log($e->getMessage()); // utile en debug
-        $_SESSION['flash'] = 'Erreur lors du chargement de le frais forfait.';
-        $fraisForfait = null;
+
+        $this->render('fraisForfait/show', [
+            'title'       => 'Détail du frais forfait',
+            'fraisForfait'=> $fraisForfait,
+            'message'     => $_SESSION['flash'] ?? '',
+        ]);
+        unset($_SESSION['flash']);
     }
-
-    $this->render('fraisForfait/show', [
-        'title' => 'Détail du frais forfait',
-        'fraisForfait'  => $fraisForfait,
-        'message' => $_SESSION['flash'] ?? '',
-    ]);
-    unset($_SESSION['flash']);
-}
-
-
 }

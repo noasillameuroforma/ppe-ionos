@@ -9,7 +9,7 @@ final class Database {
         $dsn  = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             getenv('DB_HOST') ?: 'localhost',
             getenv('DB_PORT') ?: '8889',
-            getenv('DB_NAME') ?: 'gestion_des_frais'
+            getenv('DB_NAME') ?: 'gestion-des-frais'
         );
         $user = getenv('DB_USER') ?: 'root';
         $pass = getenv('DB_PASS') ?: 'root';

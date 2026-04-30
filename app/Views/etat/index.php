@@ -21,12 +21,12 @@
 <body>
     <div class="topbar">
         <h1 style="margin:0;">Liste des États test</h1>
-        <a class="button" href="/dashboard">Dashboard</a>
-        <a class="button" href="/logout">Se déconnecter</a>
-        <a class="button" href="/fraisForfait">Frais forfait</a>
+       <a class="button" href="/index.php/dashboard">Dashboard</a>
+	<a class="button" href="/index.php/logout">Se déconnecter</a>
+	<a class="button" href="/index.php/fraisForfait">Frais forfait</a>
     </div>
 
-    <a class="button" href="etat/create">➕ Ajouter un état</a>
+    <a class="button" href="/index.php/etat/create">➕ Ajouter un état</a>
 
     <?php if (!empty($message)): ?>
         <div class="flash"><?= htmlspecialchars($message) ?></div>
@@ -49,14 +49,14 @@
                         <td><?= htmlspecialchars((string)$etat['id']) ?></td>
                         <td><?= htmlspecialchars((string)$etat['libelle']) ?></td>
                         <td class="actions">
-                            <a href="./etat/<?= urlencode($etat['id']) ?>">Voir</a>
-                            <a href="./etat/<?= urlencode($etat['id']) ?>/edit">Modifier</a>
-                             <form action="./etat/<?= urlencode($etat['id']) ?>/delete"
-                             method="post"
-                             style="display:inline"
-                             onsubmit="return confirm('Supprimer cet état ? Cette action est définitive.');">
-                                <button type="submit">Supprimer</button>
-                            </form>
+                            <a href="/index.php/etat/<?= urlencode($etat['id']) ?>">Voir</a>
+							<a href="/index.php/etat/<?= urlencode($etat['id']) ?>/edit">Modifier</a>
+                             <form action="/index.php/etat/<?= urlencode($etat['id']) ?>/delete"
+     							 method="post"
+      							style="display:inline"
+     						 	onsubmit="return confirm('Supprimer cet état ? Cette action est définitive.');">
+  									<button type="submit">Supprimer</button>
+							</form>
                             
                         </td>
                     </tr>

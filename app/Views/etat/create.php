@@ -27,7 +27,9 @@
         </div>
     <?php endif; ?>
 
-    <form action="../etat/create" method="post">
+   <form action="/index.php/etat/create" method="post">
+
+
         <div class="field">
             <label for="libelle">Libellé</label>
             <input
@@ -45,7 +47,7 @@
         </div>
 
         <button type="submit">Enregistrer</button>
-        <a href="./etat">Annuler</a>
+      <a href="/index.php/etat">Annuler</a>
     </form>
 
 </body>

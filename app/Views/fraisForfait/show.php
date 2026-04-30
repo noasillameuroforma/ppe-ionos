@@ -23,10 +23,12 @@
             <p><strong>Libellé :</strong> <?= htmlspecialchars($fraisForfait['libelle']) ?></p>
             <p><strong>Montant :</strong> <?= htmlspecialchars($fraisForfait['montant']) ?></p>
         </div>
-        <a class="button" href="../fraisForfait">⬅ Retour à la liste</a>
+        <a class="button" href="/index.php/fraisForfait">⬅ Retour à la liste</a>
+
     <?php else: ?>
         <p>Frais forfais introuvable.</p>
-        <a class="button" href="../fraisForfait">Retour à la liste</a>
+       <a class="button" href="/index.php/fraisForfait">⬅ Retour à la liste</a>
+
     <?php endif; ?>
 </body>
 </html>

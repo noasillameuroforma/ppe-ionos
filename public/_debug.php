@@ -6,17 +6,20 @@ header('Content-Type: text/plain; charset=utf-8');
 $logDir = __DIR__ . '/../ppe_logs';
 
 $files = [
-    $logDir . '/ping.log',
-    $logDir . '/raw.log',
-    $logDir . '/trace.log',
-    $logDir . '/php-fatal.log',
-    $logDir . '/php-exception.log',
-    $logDir . '/auth.log',
-    $logDir . '/dashboard.log',
-    $logDir . '/php-auth-exception.log',
-    $logDir . '/php-dashboard-exception.log',
-    $logDir . '/php-fraisforfait-exception.log',
+  $logDir . '/ping.log',
+  $logDir . '/raw.log',
+  $logDir . '/trace.log',
+  $logDir . '/auth.log',
+  $logDir . '/dashboard.log',
+  $logDir . '/php-auth-exception.log',
+  $logDir . '/php-dashboard-exception.log',
+  $logDir . '/php-fatal.log',
+  $logDir . '/php-exception.log',
+  $logDir . '/post-ok.log',
+  $logDir . '/php-fraisforfait-exception.log',
+
 ];
+
 
 foreach ($files as $f) {
     echo "===== " . basename($f) . " =====\n";
