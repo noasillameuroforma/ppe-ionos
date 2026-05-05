@@ -3,30 +3,18 @@ $env = parse_ini_file(__DIR__ . '/../.env');
 
 $server = $env['DB_HOST'] ?? '';
 $user   = $env['DB_USER'] ?? '';
+$pass   = $env['DB_PASS'] ?? '';
 $db     = $env['DB_NAME'] ?? '';
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Accès BDD</title>
-</head>
-<body>
-    <h1>Connexion à la base de données</h1>
+<form method="post" action="adminer.php">
+    <input type="hidden" name="auth[driver]" value="server">
+    <input type="hidden" name="auth[server]" value="<?= htmlspecialchars($server) ?>">
+    <input type="hidden" name="auth[username]" value="<?= htmlspecialchars($user) ?>">
+    <input type="hidden" name="auth[password]" value="<?= htmlspecialchars($pass) ?>">
+    <input type="hidden" name="auth[db]" value="<?= htmlspecialchars($db) ?>">
 
-    <p>Utilise ces informations dans Adminer :</p>
-
-    <ul>
-        <li><strong>Système :</strong> MySQL</li>
-        <li><strong>Serveur :</strong> <?= htmlspecialchars($server) ?></li>
-        <li><strong>Utilisateur :</strong> <?= htmlspecialchars($user) ?></li>
-        <li><strong>Base :</strong> <?= htmlspecialchars($db) ?></li>
-        <li><strong>Mot de passe :</strong> celui fourni par le professeur</li>
-    </ul>
-
-    <p>
-        <a href="adminer.php">Ouvrir Adminer</a>
-    </p>
-</body>
-</html>
+    <button type="submit">
+        Accéder à la base de données
+    </button>
+</form>
