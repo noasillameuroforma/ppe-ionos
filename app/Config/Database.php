@@ -18,7 +18,7 @@ final class Database {
         $port = trim((string)($env['DB_PORT'] ?? '3306'));
         $name = trim((string)($env['DB_NAME'] ?? ''));
         $user = trim((string)($env['DB_USER'] ?? ''));
-        $pass = trim((string)($env['DB_PASS'] ?? ''));
+        $pass = trim((string)($env['DB_PASSWORD'] ?? ''));
 
         @file_put_contents(
             __DIR__ . '/../../ppe_logs/db-debug.log',

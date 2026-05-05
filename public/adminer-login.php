@@ -3,7 +3,7 @@ $env = parse_ini_file(__DIR__ . '/../.env');
 
 $server = $env['DB_HOST'] ?? '';
 $user   = $env['DB_USER'] ?? '';
-$pass   = $env['DB_PASS'] ?? '';
+$pass   = $env['DB_PASSWORD'] ?? '';
 $db     = $env['DB_NAME'] ?? '';
 ?>
 
