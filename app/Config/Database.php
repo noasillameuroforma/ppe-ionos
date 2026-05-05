@@ -5,19 +5,24 @@ use PDO;
 final class Database {
     private static ?PDO $pdo = null;
     public static function get(): PDO {
-        if (self::$pdo) return self::$pdo;
-        $dsn  = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
-            getenv('DB_HOST') ?: 'localhost',
-            getenv('DB_PORT') ?: '3306', 
-            getenv('DB_NAME') ?: ''
-        );
-        $user = getenv('DB_USER') ?: '';
-        $pass = getenv('DB_PASS') ?: '';
+       if (self::$pdo) return self::$pdo;
+
+        $env = parse_ini_file(__DIR__ . '/../../.env');
+
+        $host = $env['DB_HOST'] ?? '';
+        $port = $env['DB_PORT'] ?? '3306';
+        $name = $env['DB_NAME'] ?? '';
+        $user = $env['DB_USER'] ?? '';
+        $pass = $env['DB_PASS'] ?? '';
+
+        $dsn = "mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4";
+
         self::$pdo = new PDO($dsn, $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
         ]);
+
         return self::$pdo;
     }
 }
