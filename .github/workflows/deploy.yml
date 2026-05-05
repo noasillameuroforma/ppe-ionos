@@ -1,28 +1,32 @@
 name: Deploy to IONOS
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Créer le fichier .env
         run: |
           echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
 
       - name: Envoyer sur IONOS
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server: ${{ secrets.SFTP_HOST }}
+          host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
-          local_path: './*'
-          remote_path: ${{ secrets.SFTP_PATH }}
-          sftp_only: true
+          port: 22
+          source: "."
+          target: "."
