@@ -8,7 +8,7 @@ final class Database {
         if (self::$pdo) return self::$pdo;
         $dsn  = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             getenv('DB_HOST') ?: 'localhost',
-            getenv('DB_PORT') ?: '3306',
+            getenv('DB_PORT') ?: '3306', 
             getenv('DB_NAME') ?: ''
         );
         $user = getenv('DB_USER') ?: '';
@@ -21,3 +21,8 @@ final class Database {
         return self::$pdo;
     }
 }
+
+
+
+
+
