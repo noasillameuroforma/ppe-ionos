@@ -1,21 +1,39 @@
 <?php
 namespace Config;
+
 use PDO;
 
 final class Database {
     private static ?PDO $pdo = null;
+
     public static function get(): PDO {
-       if (self::$pdo) return self::$pdo;
+        if (self::$pdo) return self::$pdo;
 
-        $env = parse_ini_file(__DIR__ . '/../../.env');
+        $envFile = __DIR__ . '/../../.env';
+        $env = is_file($envFile)
+            ? parse_ini_file($envFile, false, INI_SCANNER_RAW)
+            : [];
 
-        $host = $env['DB_HOST'] ?? '';
-        $port = $env['DB_PORT'] ?? '3306';
-        $name = $env['DB_NAME'] ?? '';
-        $user = $env['DB_USER'] ?? '';
-        $pass = $env['DB_PASS'] ?? '';
+        $host = trim((string)($env['DB_HOST'] ?? ''));
+        $port = trim((string)($env['DB_PORT'] ?? '3306'));
+        $name = trim((string)($env['DB_NAME'] ?? ''));
+        $user = trim((string)($env['DB_USER'] ?? ''));
+        $pass = trim((string)($env['DB_PASS'] ?? ''));
 
-        $dsn = "mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4";
+        @file_put_contents(
+            __DIR__ . '/../../ppe_logs/db-debug.log',
+            '[' . date('c') . '] host=' . $host .
+            ' db=' . $name .
+            ' user=' . $user .
+            ' pass_len=' . strlen($pass) . "\n",
+            FILE_APPEND
+        );
+
+        if ($host === '' || $name === '' || $user === '' || $pass === '') {
+            throw new \RuntimeException('Configuration BDD incomplète dans .env');
+        }
+
+        $dsn = "mysql:host={$host};port={$port};dbname={$name};charset=utf8mb4";
 
         self::$pdo = new PDO($dsn, $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -26,25 +44,3 @@ final class Database {
         return self::$pdo;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
