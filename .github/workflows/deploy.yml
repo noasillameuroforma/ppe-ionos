@@ -21,13 +21,13 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
 
-      - name: Envoyer sur IONOS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: 22
-          source: "app,public,ppe_logs,README.md,.env"
-          target: "/PPE/ppe-2025/PPE-prof2"
-          overwrite: true
+      - name: Installer lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Envoyer sur IONOS en SFTP
+        run: |
+          lftp -u "${{ secrets.SFTP_USER }}","${{ secrets.SFTP_PASSWORD }}" sftp://${{ secrets.SFTP_HOST }} <<EOF
+          set sftp:auto-confirm yes
+          mirror -R --verbose --exclude .git/ --exclude .github/ ./ ./
+          bye
+          EOF
