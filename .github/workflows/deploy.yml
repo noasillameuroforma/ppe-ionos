@@ -28,5 +28,6 @@ jobs:
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
           port: 22
-          source: "."
-          target: "."
+          source: "app,public,ppe_logs,README.md,.env"
+          target: "/PPE/ppe-2025/PPE-prof2"
+          overwrite: true
